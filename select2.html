@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>演習用サイト-STAGE SELECT-</title>
+    <link rel="stylesheet" href="select2.css" />
+  </head>
+  <body>
+    <div class="background-image"></div>
+    <div class="container">
+      <h1>ーStage Selectー</h1>
+      <div class="choice-grid">
+        <a href="practice_easy.html">
+          <button
+            class="choice"
+            onmouseover="changeText(this, '10→2　10→16の進数変換')"
+            onmouseout="resetText(this, 'Stage１【EASY】')"
+          >
+            Stage１ーEASYー
+          </button>
+        </a>
+        <a href="practice_nomal.html">
+          <button
+            class="choice"
+            onmouseover="changeText(this, '10⇔2　10⇔16の進数変換')"
+            onmouseout="resetText(this, 'Stage２【NORMAL】')"
+          >
+            Stage２ーNORMALー
+          </button>
+        </a>
+        <a href="practice_hard.html">
+          <button
+            class="choice"
+            onmouseover="changeText(this, '10⇔2　10⇔16　2⇔16の進数変換')"
+            onmouseout="resetText(this, 'Stage３【HARD】')"
+          >
+            Stage３ーHARDー
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      // ボタンのテキストを変更する関数
+      function changeText(button, newText) {
+        button.innerHTML = newText;
+      }
+
+      // ボタンのテキストをリセットする関数
+      function resetText(button, originalText) {
+        button.innerHTML = originalText;
+      }
+    </script>
+  </body>
+</html>

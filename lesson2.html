@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2進数から10進数への変換</title>
+    <link rel="stylesheet" href="lesson2.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>2進数から10進数への変換</h1>
+      <button
+        class="button_start"
+        id="button_start"
+        onclick="startConversion()"
+      >
+        問題開始
+      </button>
+      <div id="result" style="margin-top: 20px"></div>
+      <div id="inputArea" class="input-step" style="display: none">
+        <p id="currentStep"></p>
+        <input type="number" id="userAnswer" placeholder="計算結果を入力" />
+        <button class="send" onclick="submitAnswer()">解答する</button>
+      </div>
+      <p id="feedback" style="color: red"></p>
+      <p id="progress"></p>
+    </div>
+    <!-- 右下に挿入する画像 -->
+
+    <script>
+      let binaryNumber, decimalResult, steps, currentQuestion, currentStepIndex;
+      const totalQuestions = 10;
+      const binaryNumbers = [
+        "1101",
+        "1010",
+        "1111",
+        "1001",
+        "10010",
+        "11011",
+        "10101",
+        "11100",
+        "10111",
+        "100101",
+        "110010",
+        "101111",
+        "100110",
+        "111010",
+        "100011",
+        "110111",
+        "101001",
+        "111111",
+        "100000",
+        "110101",
+      ];
+      let stepResults = [];
+      let totalSum = 0;
+
+      function startConversion() {
+        currentQuestion = 1;
+        correctAnswers = 0;
+        document.getElementById(
+          "progress"
+        ).innerText = `第1問 / ${totalQuestions}問`;
+        document.getElementById("result").innerHTML = ""; // 結果エリアを初期化
+        document.getElementById("button_start").style.display = "none"; // ボタンを非表示にする
+        startNewQuestion();
+      }
+
+      function startNewQuestion() {
+        binaryNumber =
+          binaryNumbers[Math.floor(Math.random() * binaryNumbers.length)];
+        decimalResult = parseInt(binaryNumber, 2);
+        currentStepIndex = 0;
+        stepResults = [];
+        totalSum = 0;
+        const questionHeader = `例題${currentQuestion}: 2進数 ${binaryNumber} を10進数に変換しよう`;
+        document.getElementById(
+          "result"
+        ).innerHTML += `<div class="question-block"><p>${questionHeader}</p><div id="steps${currentQuestion}" class="steps"></div></div>`;
+        document.getElementById("inputArea").style.display = "block";
+        document.getElementById("feedback").innerText = "";
+        displayCurrentStep();
+      }
+
+      function displayCurrentStep() {
+        const binaryDigits = binaryNumber.split("").reverse();
+        if (currentStepIndex < binaryDigits.length) {
+          const currentDigit = binaryDigits[currentStepIndex];
+          document.getElementById(
+            "currentStep"
+          ).innerText = `${currentDigit} × 2^${currentStepIndex} の計算結果を入力してください:`;
+        } else {
+          document.getElementById("currentStep").innerText =
+            "全ての計算が完了しました。計算結果を合計してください:";
+        }
+      }
+
+      function submitAnswer() {
+        const userAnswer = parseInt(
+          document.getElementById("userAnswer").value
+        );
+        const binaryDigits = binaryNumber.split("").reverse();
+
+        if (currentStepIndex < binaryDigits.length) {
+          const currentDigit = binaryDigits[currentStepIndex];
+          const correctAnswer = currentDigit * Math.pow(2, currentStepIndex);
+
+          if (userAnswer === correctAnswer) {
+            stepResults.push(userAnswer);
+            totalSum += userAnswer;
+            document.getElementById(
+              `steps${currentQuestion}`
+            ).innerHTML += `<p>${currentDigit} × 2^${currentStepIndex} = ${userAnswer}</p>`;
+            document.getElementById("feedback").innerText = "正解です！";
+            currentStepIndex++;
+            document.getElementById("userAnswer").value = "";
+            displayCurrentStep();
+          } else {
+            document.getElementById("feedback").innerText =
+              "間違っています。もう一度お試しください。";
+          }
+        } else {
+          if (userAnswer === totalSum) {
+            document.getElementById("feedback").innerText = "正解です！";
+            document.getElementById(
+              `steps${currentQuestion}`
+            ).innerHTML += `<p>合計: ${totalSum}</p>`;
+            document.getElementById("inputArea").style.display = "none";
+            nextQuestion();
+          } else {
+            document.getElementById("feedback").innerText =
+              "合計が間違っています。もう一度お試しください。";
+          }
+        }
+      }
+
+      function nextQuestion() {
+        if (currentQuestion < totalQuestions) {
+          currentQuestion++;
+          document.getElementById(
+            "progress"
+          ).innerText = `第${currentQuestion}問 / ${totalQuestions}問`;
+          startNewQuestion();
+        } else {
+          document.getElementById(
+            "result"
+          ).innerHTML += `<p>お疲れ様でした！ 全${totalQuestions}問が完了しました。</p>`;
+          document.getElementById("progress").innerText = "";
+        }
+      }
+    </script>
+    <div class="teacher">
+      <div class="bottom-right-image">
+        <img src="images/teacher.png" alt="右下の画像" class="teacher-img" />
+      </div>
+    </div>
+
+    <div class="fukidashioya">
+      <div class="fukidashiko">
+        <img
+          src="images/fukidashi.png"
+          alt="右下の画像"
+          class="fukidashi-img"
+        />
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+/* ページ全体のスタイル */
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+  background-attachment: fixed; /* 背景を固定 */
+  background-size: cover; /* 背景を画面全体に拡大縮小 */
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* htmlとbody両方に高さを設定 */
+  display: flex;
+  flex-direction: column; /* 縦方向の配置を意識 */
+  align-items: center; /* 水平方向の中央揃え */
+  justify-content: flex-start; /* 垂直方向は上から開始 */
+}
+
+/* タイトル（h1）のスタイル */
+h1 {
+  font-size: 50px;
+  color: rgb(117, 108, 108);
+  margin: 20px 0; /* 上下に適度な余白を追加 */
+  font-style: oblique;
+  text-align: center; /* 中央揃え */
+}
+
+/* 問題ブロックのスタイル */
+#result {
+  margin-top: 20px; /* タイトルとの余白 */
+  text-align: center; /* 水平方向に中央揃え */
+}
+
+/* 入力エリアのスタイル */
+#inputArea {
+  margin-top: 20px; /* 問題ブロックとの余白 */
+  text-align: center; /* 水平方向に中央揃え */
+}
+
+/* フィードバックのスタイル */
+#feedback {
+  margin-top: 10px; /* 入力フィールドとの余白 */
+  color: #333; /* 文字色 */
+  font-weight: bold; /* 太字 */
+}

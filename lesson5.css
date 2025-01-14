@@ -1,0 +1,163 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* htmlとbody両方に高さを設定 */
+}
+body {
+  display: flex;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+}
+#startButton {
+  position: relative;
+  font-size: 32px;
+  width: 60%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  margin-left: 20%;
+}
+
+button:hover {
+  background-color: rgb(165, 235, 165);
+  transform: scale(0.95);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+
+  border-radius: 8px;
+}
+.binary-display {
+  font-size: 2em;
+  font-weight: bold;
+  color: #333;
+}
+input,
+button {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.result {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+.hint {
+  color: blue;
+  margin-top: 10px;
+  font-size: 1em;
+  font-weight: bold;
+}
+/* 以下、2の累乗とマス用のスタイル */
+.powers-of-two {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-size: 1.5em;
+}
+
+.arrows {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.arrows div {
+  font-size: 2em;
+}
+
+.boxes {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.box {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#drawingCanvas {
+  border: 2px solid #000;
+  touch-action: none;
+  margin-left: 30px;
+}
+.controls {
+  margin-top: 10px;
+  margin-left: 30px;
+}
+#memo {
+  margin-left: 30px;
+}
+/* ヒント表示用に非表示にする */
+#powerContainer {
+  display: none;
+}
+
+/* 右下に画像を固定配置するスタイル */
+.teacher {
+  position: relative;
+  background-size: 100%;
+  /* ボックス配置指定 */
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+  /* ボックスサイズ指定 */
+  width: 100px;
+  height: 100px;
+}
+.bottom-right-image {
+  position: absolute;
+  right: -150px;
+  top: -50px;
+
+  animation: moveImage 3s infinite alternate; /* アニメーション適用 */
+}
+.teacher-img {
+  width: 150px;
+  height: auto;
+}
+.fukidashioya {
+  position: relative;
+  background-size: 100%;
+  /* ボックス配置指定 */
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+  /* ボックスサイズ指定 */
+  width: 100px;
+  height: 100px;
+}
+.fukidashiko {
+  position: absolute;
+  right: 20%;
+  bottom: 30px;
+  animation: moveImage 3s infinite alternate; /* アニメーション適用 */
+}
+
+.fukidashi-img {
+  width: 300px;
+  height: auto;
+}
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+  background-attachment: fixed; /* 背景を固定して分割を防ぐ */
+  background-size: cover; /* 背景を画面全体に拡大縮小 */
+}

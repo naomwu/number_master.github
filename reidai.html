@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10進数から2進数の変換</title>
+    <link rel="stylesheet" href="reidai.css" />
+  </head>
+  <body>
+    <h1>例題⓵　10進数から２進数の変換</h1>
+    <div id="result"></div>
+    <div id="inputArea" style="display: none">
+      <p id="currentStep"></p>
+      <input
+        type="number"
+        id="userQuotient"
+        placeholder="商を入力してください"
+      />
+      <button onclick="submitAnswer()">解答する</button>
+      <p id="feedback"></p>
+    </div>
+    <script>
+      let decimalNumber, binaryString, steps, number;
+
+      const numbers = [526];
+
+      function startConversion() {
+        decimalNumber = numbers[Math.floor(Math.random() * numbers.length)];
+        binaryString = "";
+        steps = "";
+        number = decimalNumber;
+
+        const questionHeader = `問題: ${decimalNumber}を2進数で表しなさい。`;
+        document.getElementById(
+          "result"
+        ).innerHTML = `<div class="question-block"><p>${questionHeader}</p><div id="steps" class="steps"></div></div>`;
+        document.getElementById("inputArea").style.display = "block";
+        document.getElementById("feedback").innerText = "";
+        nextStep();
+      }
+
+      function nextStep() {
+        if (number > 0) {
+          steps += `<p>${number} ÷ 2 = ____</p>`; // 商と余りを求める部分
+          document.getElementById("steps").innerHTML = steps;
+          document.getElementById(
+            "currentStep"
+          ).innerText = `${number} ÷ 2 の商を入力してください:`;
+        } else {
+          const resultText = `変換結果: 10進数 ${decimalNumber} = 2進数 ${binaryString}`;
+          document.getElementById("steps").innerHTML += `<p>${resultText}</p>`;
+          document.getElementById("inputArea").style.display = "none";
+          document.getElementById("progress").innerText = "お疲れ様でした！";
+        }
+      }
+
+      function submitAnswer() {
+        const userAnswer = parseInt(
+          document.getElementById("userQuotient").value
+        );
+
+        if (userAnswer === Math.floor(number / 2)) {
+          const remainder = number % 2;
+          binaryString = remainder + binaryString;
+          steps = steps.replace("____", `${userAnswer} 余り ${remainder}`);
+          document.getElementById("steps").innerHTML = steps;
+          document.getElementById("feedback").innerText = "正解です！";
+          number = userAnswer;
+          document.getElementById("userQuotient").value = "";
+          nextStep();
+        } else {
+          document.getElementById("feedback").innerText =
+            "間違っています。もう一度お試しください。";
+        }
+      }
+
+      // 初期化
+      startConversion();
+    </script>
+  </body>
+</html>

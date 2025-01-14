@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2進数から16進数への変換</title>
+    <link rel="stylesheet" href="lesson5.css" />
+ 
+  </head>
+  <body>
+    <div class="container">
+      <h1>2進数から16進数への変換</h1>
+      <p>
+        表示された8ビットの2進数を、16進数に変換して入力してください。
+      </p>
+
+      <!-- 問題開始ボタン -->
+      <button id="startButton" onclick="generateBinaryQuestion()">
+        問題開始
+      </button>
+
+      <div id="quizArea" style="display: none">
+        <p>
+          8ビットの二進数:
+          <span id="binaryNumber" class="binary-display">---</span>
+        </p>
+        <label
+          >4ビット(左):
+          <input type="text" id="answer1" maxlength="1" placeholder="0-F"
+        /></label>
+        <label
+          >4ビット(右):
+          <input type="text" id="answer2" maxlength="1" placeholder="0-F"
+        /></label>
+        <button onclick="checkAnswers()">解答する</button>
+        <button id="hintButton" onclick="showHint()">ヒント</button>
+      </div>
+
+      <div id="result" class="result"></div>
+      <div id="score" class="result">正解数: 0</div>
+      <div id="hint" class="hint"></div>
+
+      <!-- 2の累乗表示とマス -->
+      <div id="powerContainer">
+        <div class="powers-of-two">
+          <div>2<sup>3</sup> = 8</div>
+          <div>2<sup>2</sup> = 4</div>
+          <div>2<sup>1</sup> = 2</div>
+          <div>2<sup>0</sup> = 1</div>
+        </div>
+
+        <div class="arrows">
+          <div>&#8595;</div>
+          <div>&#8595;</div>
+          <div>&#8595;</div>
+          <div>&#8595;</div>
+        </div>
+
+        <div class="boxes">
+          <div class="box"></div>
+          <div class="box"></div>
+          <div class="box"></div>
+          <div class="box"></div>
+        </div>
+      </div>
+    </div>
+<!-- 手書き入力機能 -->
+<div class="drawing-container">
+  <h1 id="memo">メモ</h1>
+  <canvas id="drawingCanvas" width="500" height="300"></canvas>
+  <div class="controls">
+    <button onclick="clearCanvas()">クリア</button>
+  </div>
+
+    <script>
+      let correctAnswers = 0;
+      let binaryNumber;
+
+      function generateBinaryQuestion() {
+        // 問題開始ボタンを非表示にする
+        document.getElementById("startButton").style.display = "none";
+
+        // 0から255までのランダムな整数を生成し、8ビットの二進数に変換
+        const randomDecimal = Math.floor(Math.random() * 256);
+        binaryNumber = randomDecimal.toString(2).padStart(8, "0");
+
+        // 画面に8ビットの二進数を表示
+        document.getElementById("binaryNumber").innerText = binaryNumber;
+
+        // 入力フィールドと結果メッセージをリセット
+        document.getElementById("quizArea").style.display = "block";
+        document.getElementById("answer1").value = "";
+        document.getElementById("answer2").value = "";
+        document.getElementById("result").innerText = "";
+        document.getElementById("hint").innerText = ""; // ヒントをリセット
+      }
+
+      function checkAnswers() {
+        // 8ビットを左と右の4ビットに分ける
+        const left4Bits = binaryNumber.slice(0, 4);
+        const right4Bits = binaryNumber.slice(4, 8);
+
+        // 各4ビットを16進数に変換
+        const correctAnswer1 = parseInt(left4Bits, 2)
+          .toString(16)
+          .toUpperCase();
+        const correctAnswer2 = parseInt(right4Bits, 2)
+          .toString(16)
+          .toUpperCase();
+
+        // ユーザーの入力値を取得し、大文字に変換
+        const userAnswer1 = document
+          .getElementById("answer1")
+          .value.trim()
+          .toUpperCase();
+        const userAnswer2 = document
+          .getElementById("answer2")
+          .value.trim()
+          .toUpperCase();
+
+        // 正誤判定
+        if (userAnswer1 === correctAnswer1 && userAnswer2 === correctAnswer2) {
+          correctAnswers++;
+          document.getElementById("result").innerText =
+            "全て正解です！次の問題に進みます。";
+          document.getElementById("result").style.color = "green";
+          generateBinaryQuestion(); // 次の問題を生成
+        } else {
+          document.getElementById(
+            "result"
+          ).innerText = `不正解があります。もう一度挑戦してください。正解: ${correctAnswer1} ${correctAnswer2}`;
+          document.getElementById("result").style.color = "red";
+        }
+        document.getElementById(
+          "score"
+        ).innerText = `正解数: ${correctAnswers}`;
+      }
+
+      function showHint() {
+        const left4Bits = binaryNumber.slice(0, 4);
+        const right4Bits = binaryNumber.slice(4, 8);
+        const leftHex = parseInt(left4Bits, 2).toString(16).toUpperCase();
+        const rightHex = parseInt(right4Bits, 2).toString(16).toUpperCase();
+
+        document.getElementById(
+          "hint"
+        ).innerText = `ヒント:➀ 左の4ビット(${left4Bits})は16進数で${leftHex}、右の4ビット(${right4Bits})は16進数で${rightHex}です。
+        　　　 ②各桁を□の中に当てはめ、「１」が入る桁を計算する`;
+
+        // ヒントボタンを押すと、2の累乗表示を表示
+        document.getElementById("powerContainer").style.display = "block";
+      }
+        // 手書き入力機能に関するJavaScript
+        const canvas = document.getElementById("drawingCanvas");
+      const ctx = canvas.getContext("2d");
+      let drawing = false;
+
+      function startDrawing(event) {
+        drawing = true;
+        draw(event);
+      }
+
+      function endDrawing() {
+        drawing = false;
+        ctx.beginPath();
+      }
+
+      function draw(event) {
+        if (!drawing) return;
+        ctx.lineWidth = 3;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "black";
+
+        let x, y;
+        if (event.touches) {
+          x = event.touches[0].clientX - canvas.offsetLeft;
+          y = event.touches[0].clientY - canvas.offsetTop;
+        } else {
+          x = event.clientX - canvas.offsetLeft;
+          y = event.clientY - canvas.offsetTop;
+        }
+
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+      }
+
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mouseup", endDrawing);
+      canvas.addEventListener("mousemove", draw);
+
+      canvas.addEventListener("touchstart", startDrawing);
+      canvas.addEventListener("touchend", endDrawing);
+      canvas.addEventListener("touchmove", draw);
+    </script>
+    <!-- 右下に挿入する画像 -->
+    <div class="teacher">
+      <div class="bottom-right-image">
+        <img src="images/teacher.png" alt="右下の画像" class="teacher-img" />
+      </div>
+    </div>
+    
+    <div class="fukidashioya">
+      <div class="fukidashiko">
+        <img
+          src="images/fukidashi.png"
+          alt="右下の画像"
+          class="fukidashi-img"
+        />
+      </div>
+    </div>
+
+  </body>
+</html>

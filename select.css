@@ -1,0 +1,240 @@
+/* 全体のスタイル */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+  position: relative; /* 重ねる要素のためにrelativeを設定 */
+  background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+}
+/* タイトルスタイル */
+
+h1 {
+  position: relative;
+  top: 20px; /* 上に移動 */
+  font-size: 5rem; /* 適切なサイズ */
+  color: #fff; /* 視認性の高い色 */
+  z-index: 10; /* 背景より上に表示 */
+}
+
+/* 横並びにするグリッド */
+.choice-grid {
+  display: flex;
+  flex-direction: column; /* 要素を縦方向に並べる */
+  align-items: center; /* 横方向の中央揃え */
+  gap: 15px; /* 縦方向の間隔 */
+}
+
+a {
+  text-decoration: none; /* 下線を表示させない */
+}
+
+/* ボタン */
+.choice {
+  position: relative;
+  font-size: 32px;
+  width: 100%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  /* アニメーションの初期設定 */
+  position: relative; /* アニメーションの移動を相対位置で行う */
+  opacity: 0; /* 初期状態は非表示 */
+  animation: dropDown 1s ease-out forwards; /* アニメーション適用 */
+}
+.choice:hover {
+  background-color: rgb(165, 235, 165);
+  transform: scale(0.95);
+}
+.reidai-button1 {
+  display: flex;
+  align-items: center; /* 横方向の中央揃え */
+  font-size: 32px;
+  width: 100%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  /* アニメーションの初期設定 */
+  position: relative; /* アニメーションの移動を相対位置で行う */
+  opacity: 0; /* 初期状態は非表示 */
+  animation: dropDown 1s ease-out forwards; /* アニメーション適用 */
+  background-color: rgb(95, 95, 95);
+  color: #fff;
+}
+.reidai-button2 {
+  display: flex;
+  align-items: center; /* 横方向の中央揃え */
+  font-size: 32px;
+  width: 100%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  /* アニメーションの初期設定 */
+  position: relative; /* アニメーションの移動を相対位置で行う */
+  opacity: 0; /* 初期状態は非表示 */
+  animation: dropDown 1s ease-out forwards; /* アニメーション適用 */
+  background-color: rgb(95, 95, 95);
+  color: #fff;
+}
+.reidai-button3 {
+  display: flex;
+  align-items: center; /* 横方向の中央揃え */
+  font-size: 32px;
+  width: 100%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  /* アニメーションの初期設定 */
+  position: relative; /* アニメーションの移動を相対位置で行う */
+  opacity: 0; /* 初期状態は非表示 */
+  animation: dropDown 1s ease-out forwards; /* アニメーション適用 */
+  background-color: rgb(95, 95, 95);
+  color: #fff;
+}
+.reidai-button4 {
+  display: flex;
+  align-items: center; /* 横方向の中央揃え */
+  font-size: 32px;
+  width: 100%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  /* アニメーションの初期設定 */
+  position: relative; /* アニメーションの移動を相対位置で行う */
+  opacity: 0; /* 初期状態は非表示 */
+  animation: dropDown 1s ease-out forwards; /* アニメーション適用 */
+  background-color: rgb(95, 95, 95);
+  color: #fff;
+}
+.reidai-button5 {
+  display: flex;
+  align-items: center; /* 横方向の中央揃え */
+  font-size: 32px;
+  width: 100%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  /* アニメーションの初期設定 */
+  position: relative; /* アニメーションの移動を相対位置で行う */
+  opacity: 0; /* 初期状態は非表示 */
+  animation: dropDown 1s ease-out forwards; /* アニメーション適用 */
+  background-color: rgb(95, 95, 95);
+  color: #fff;
+}
+.reidai-button6 {
+  display: flex;
+  align-items: center; /* 横方向の中央揃え */
+  font-size: 32px;
+  width: 100%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  /* アニメーションの初期設定 */
+  position: relative; /* アニメーションの移動を相対位置で行う */
+  opacity: 0; /* 初期状態は非表示 */
+  animation: dropDown 1s ease-out forwards; /* アニメーション適用 */
+  background-color: rgb(95, 95, 95);
+  color: #fff;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+.teacher {
+  position: relative;
+  background-size: 100%;
+  /* ボックス配置指定 */
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+  /* ボックスサイズ指定 */
+  width: 100px;
+  height: 100px;
+}
+.bottom-right-image {
+  position: absolute;
+  right: 20px;
+
+  animation: moveImage 3s infinite alternate; /* アニメーション適用 */
+}
+.teacher-img {
+  width: 100px;
+  height: auto;
+}
+.fukidashi {
+  width: 200px;
+  height: auto;
+}
+.fukidasimoji {
+  position: fixed; /* 固定位置 */
+  right: 15%; /* 画面右端から10px */
+  width: 100px; /* 画像の幅 */
+  height: 10%;
+  object-fit: cover;
+  animation: moveImage 3s infinite alternate; /* アニメーション適用 */
+  font-weight: 10px;
+}
+
+/* 各ボタンに異なる遅延を設定 */
+.choice:nth-child(1) {
+  animation-delay: 0s; /* 最初のボタンはすぐ開始 */
+}
+
+.choice:nth-child(2) {
+  animation-delay: 0.2s; /* 0.5秒後に開始 */
+}
+
+.choice:nth-child(3) {
+  animation-delay: 0.4s; /* 1秒後に開始 */
+}
+
+.choice:nth-child(4) {
+  animation-delay: 0.6s; /* 1.5秒後に開始 */
+}
+.choice:nth-child(5) {
+  animation-delay: 0.8s; /* 2.0秒後に開始 */
+}
+.choice:nth-child(6) {
+  animation-delay: 1s; /* 2.5秒後に開始 */
+}
+/* 上から降ってくるアニメーション */
+@keyframes dropDown {
+  0% {
+    top: -500px; /* 画面外（上部）から開始 */
+    opacity: 0; /* 最初は透明 */
+  }
+  100% {
+    top: 0; /* 元の位置に到達 */
+    opacity: 1; /* 完全に表示 */
+  }
+}

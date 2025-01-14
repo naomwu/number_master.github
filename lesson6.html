@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>16進数から2進数への変換と手書き入力</title>
+    <link rel="stylesheet" href="lesson6.css" />
+
+  </head>
+  <body>
+    <div class="container">
+      <!-- 16進数から2進数への変換機能 -->
+      <div class="conversion-container">
+        <h1>16進数から２進数への変換</h1>
+        <p>表示された16進数の各桁を2進数に変換して入力してください</p>
+        <p>（各桁４桁の２進数で答えてください）</p>
+        <button class="button_start" onclick="startQuiz()">問題開始</button>
+
+        <div id="quizArea" style="display: none">
+          <p>16進数: <span id="hexNumber" class="hex-display">---</span></p>
+          <div id="inputFields"></div>
+          <button id="soushin" onclick="checkAnswers()">解答する</button>
+          <button id="hintButton" onclick="showHint()" style="display: none">
+            ヒント
+          </button>
+        </div>
+
+        <div id="result" class="result"></div>
+        <div id="score" class="result">正解数: 0</div>
+        <div id="hint" class="result" style="color: blue"></div>
+      </div>
+
+      <!-- 手書き入力機能 -->
+      <div class="drawing-container">
+        <h1>メモ</h1>
+        <canvas id="drawingCanvas" width="500" height="300"></canvas>
+        <div class="controls">
+          <button onclick="clearCanvas()">クリア</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 16進数から2進数への変換機能に関するJavaScript
+      let correctAnswers = 0;
+      let currentHex;
+      let hexDigits = [];
+
+      function generateQuestion() {
+        const randomDecimal = Math.floor(Math.random() * 0xfff);
+        currentHex = randomDecimal.toString(16).toUpperCase();
+        hexDigits = currentHex.split("");
+        document.getElementById("hexNumber").innerText = currentHex;
+        const inputFields = document.getElementById("inputFields");
+        inputFields.innerHTML = "";
+
+        hexDigits.forEach((digit, index) => {
+          const input = document.createElement("input");
+          input.type = "text";
+          input.id = `answer${index}`;
+          input.placeholder = `2進数の${digit}`;
+          input.maxLength = 4;
+          inputFields.appendChild(input);
+        });
+
+        document.getElementById("result").innerText = "";
+        document.getElementById("hint").innerText = "";
+
+        const hasAlphabet = /[A-F]/.test(currentHex);
+        document.getElementById("hintButton").style.display = hasAlphabet
+          ? "inline"
+          : "none";
+      }
+
+      function startQuiz() {
+        document.querySelector("button").style.display = "none";
+        document.getElementById("quizArea").style.display = "block";
+        generateQuestion();
+      }
+
+      function checkAnswers() {
+        let allCorrect = true;
+
+        hexDigits.forEach((digit, index) => {
+          const userAnswer = document.getElementById(`answer${index}`).value;
+          const correctAnswer = parseInt(digit, 16)
+            .toString(2)
+            .padStart(4, "0");
+          if (userAnswer !== correctAnswer) {
+            allCorrect = false;
+          }
+        });
+
+        if (allCorrect) {
+          correctAnswers++;
+          document.getElementById("result").innerText =
+            "全て正解です！次の問題に進みます。";
+        } else {
+          document.getElementById("result").innerText =
+            "不正解があります。もう一度挑戦してください。";
+        }
+        document.getElementById(
+          "score"
+        ).innerText = `正解数: ${correctAnswers}`;
+        if (allCorrect) generateQuestion();
+      }
+
+      let hintVisible = false;
+
+      function showHint() {
+        const hints = { A: 10, B: 11, C: 12, D: 13, E: 14, F: 15 };
+        if (hintVisible) {
+          document.getElementById("hint").innerText = "";
+          hintVisible = false;
+          document.getElementById("hintButton").innerText = "ヒント";
+        } else {
+          let hintText = "ヒント: ";
+          hexDigits.forEach((digit) => {
+            if (hints[digit]) {
+              hintText += `<div class="hint-input">16進数「${digit}」＝10進数
+                    <input type="text" id="hintAnswer${digit}" maxlength="2" placeholder="?" /> 
+                    <button onclick="checkHintAnswer('${digit}')">確認</button>
+                    <div id="binaryHint${digit}" class="hint-binary"></div>
+                    </div>`;
+            }
+          });
+          document.getElementById("hint").innerHTML = hintText;
+          hintVisible = true;
+          document.getElementById("hintButton").innerText = "ヒントを閉じる";
+        }
+      }
+
+      function checkHintAnswer(digit) {
+        const userHintAnswer = document.getElementById(
+          `hintAnswer${digit}`
+        ).value;
+        const correctHintAnswer = { A: 10, B: 11, C: 12, D: 13, E: 14, F: 15 }[
+          digit
+        ];
+        if (parseInt(userHintAnswer) === correctHintAnswer) {
+          const binaryAnswer = correctHintAnswer.toString(2).padStart(4, "0");
+          document.getElementById(
+            `binaryHint${digit}`
+          ).innerText = `正解です！10進数「${correctHintAnswer}」は2進数に変換すると？`;
+        } else {
+          document.getElementById(`binaryHint${digit}`).innerText =
+            "不正解です。もう一度考えてみてください。";
+        }
+      }
+
+      // 手書き入力機能に関するJavaScript
+      const canvas = document.getElementById("drawingCanvas");
+      const ctx = canvas.getContext("2d");
+      let drawing = false;
+
+      function startDrawing(event) {
+        drawing = true;
+        draw(event);
+      }
+
+      function endDrawing() {
+        drawing = false;
+        ctx.beginPath();
+      }
+
+      function draw(event) {
+        if (!drawing) return;
+        ctx.lineWidth = 3;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "black";
+
+        let x, y;
+        if (event.touches) {
+          x = event.touches[0].clientX - canvas.offsetLeft;
+          y = event.touches[0].clientY - canvas.offsetTop;
+        } else {
+          x = event.clientX - canvas.offsetLeft;
+          y = event.clientY - canvas.offsetTop;
+        }
+
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+      }
+
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mouseup", endDrawing);
+      canvas.addEventListener("mousemove", draw);
+
+      canvas.addEventListener("touchstart", startDrawing);
+      canvas.addEventListener("touchend", endDrawing);
+      canvas.addEventListener("touchmove", draw);
+    </script>
+
+</html>

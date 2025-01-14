@@ -1,0 +1,154 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* htmlとbody両方に高さを設定 */
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  font-size: 20px !important;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+
+  border-radius: 8px;
+}
+.binary-display {
+  font-size: 2em;
+  color: #333;
+}
+input,
+button {
+  padding: 10px;
+  font-size: 16px;
+}
+.result {
+  margin-top: 20px;
+}
+.hint {
+  color: blue;
+  margin-top: 10px;
+  font-size: 1em;
+  font-weight: bold;
+}
+/* 以下、2の累乗とマス用のスタイル */
+.powers-of-two {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-size: 1.5em;
+}
+
+.arrows {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.arrows div {
+  font-size: 2em;
+}
+
+.boxes {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.box {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#drawingCanvas {
+  border: 2px solid #000;
+  touch-action: none;
+  margin-left: 30px;
+}
+.controls {
+  margin-top: 10px;
+  margin-left: 30px;
+}
+#memo {
+  margin-left: 30px;
+}
+/* ヒント表示用に非表示にする */
+#powerContainer {
+  display: none;
+}
+
+.button_start {
+  position: relative;
+  font-size: 32px;
+  width: 60%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  margin-left: 20%;
+}
+.button_start:hover {
+  transform: scale(0.95);
+}
+
+/* 右下に画像を固定配置するスタイル */
+.bottom-right-image {
+  position: fixed; /* 固定位置 */
+  bottom: 100px; /* 画面下端から10px */
+  right: 100px; /* 画面右端から10px */
+  width: 150px; /* 画像の幅 */
+  height: 300px; /* 画像の高さを自動調整 */
+  z-index: 1000; /* 他の要素の上に表示 */
+  animation: moveImage 3s infinite alternate; /* アニメーション適用 */
+}
+.fukidashi {
+  position: fixed; /* 固定位置 */
+  bottom: 300px; /* 画面下端から10px */
+  right: 250px; /* 画面右端から10px */
+  width: 400px; /* 画像の幅 */
+  height: 200px; /* 画像の高さを自動調整 */
+  z-index: 1000; /* 他の要素の上に表示 */
+  animation: moveImage 3s infinite alternate; /* アニメーション適用 */
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+  background-attachment: fixed; /* 背景を固定して分割を防ぐ */
+  background-size: cover; /* 背景を画面全体に拡大縮小 */
+}
+
+.ul {
+  padding-left: 0;
+}
+li {
+  list-style: none;
+}
+
+/* アニメーション定義 */
+@keyframes moveImage {
+  0% {
+    transform: translateY(0); /* 初期位置 */
+  }
+  50% {
+    transform: translateY(-20px); /* 上に20px移動 */
+  }
+  100% {
+    transform: translateY(0); /* 元の位置に戻る */
+  }
+}

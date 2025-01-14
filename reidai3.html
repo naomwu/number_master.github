@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>16進数から10進数への変換</title>
+    <link rel="stylesheet" href="reidai3.css" />
+  </head>
+  <script>
+    const hexNumbers = Array.from({ length: 100 }, () =>
+      Math.floor(Math.random() * 0xffff)
+        .toString(16)
+        .toUpperCase()
+    );
+
+    let selectedHexNumbers = [];
+    let currentProblemIndex = 0;
+    let correctAnswers = 0;
+    let currentStep = 0;
+    let stepResults = [];
+
+    // 問題開始（または次の問題）
+    function startConversion() {
+      // 新しい問題のリストを作成（毎回問題が異なるように）
+      selectedHexNumbers = hexNumbers
+        .sort(() => 0.5 - Math.random()) // 配列をシャッフル
+        .slice(0, 10); // 上位10個を選択
+
+      currentProblemIndex = 0;
+      correctAnswers = 0;
+      currentStep = 0;
+      stepResults = [];
+      const hexNumber = selectedHexNumbers[currentProblemIndex];
+      document.getElementById(
+        "hex-question"
+      ).innerText = `16進数: ${hexNumber}`;
+      document.getElementById("user-step-answer").value = "";
+      document.getElementById("user-final-answer").value = "";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("step-results").innerHTML = ""; // 初期化
+      document.getElementById("total-calculation").innerHTML = ""; // 合計の式を初期化
+      document.getElementById("step-answer-container").style.display = "block";
+      document.getElementById("final-container").style.display = "none";
+
+      // 問題開始ボタンを非表示
+      document.getElementById("start-button-container").style.display = "none";
+
+      displayNextStep();
+    }
+
+    function displayNextStep() {
+      const hexNumber = selectedHexNumbers[currentProblemIndex];
+      const hexDigit = hexNumber[hexNumber.length - 1 - currentStep] || "0";
+      const powerOf16 = Math.pow(16, currentStep);
+      document.getElementById(
+        "step-instruction"
+      ).innerText = `桁「${hexDigit}」を10進数に変換し、16の${currentStep}乗をかけてください: ${hexDigit} × ${powerOf16}`;
+      document.getElementById("step-answer-container").style.display = "block";
+
+      // 途中式の事前表示
+      const stepExpression = `${hexDigit} × ${powerOf16}`;
+      document.getElementById("step-results").innerHTML += ` 
+      <li>途中式 ${
+        currentStep + 1
+      }: ${stepExpression} = <span id="result-${currentStep}">?</span></li>
+    `;
+    }
+
+    function checkStepAnswer() {
+      const hexNumber = selectedHexNumbers[currentProblemIndex];
+      const hexDigit = hexNumber[hexNumber.length - 1 - currentStep] || "0";
+      const powerOf16 = Math.pow(16, currentStep);
+      const correctStepAnswer = parseInt(hexDigit, 16) * powerOf16;
+      const userStepAnswer = parseInt(
+        document.getElementById("user-step-answer").value
+      );
+
+      if (userStepAnswer === correctStepAnswer) {
+        document.getElementById("feedback").innerText =
+          "正解です！次の桁に進みます。";
+        document.getElementById(`result-${currentStep}`).innerText =
+          userStepAnswer;
+        stepResults.push(`${hexDigit} × ${powerOf16} = ${userStepAnswer}`);
+        currentStep++;
+        document.getElementById("user-step-answer").value = "";
+
+        if (currentStep >= hexNumber.length) {
+          document.getElementById("step-answer-container").style.display =
+            "none";
+          document.getElementById("final-container").style.display = "block";
+          document.getElementById("feedback").innerText =
+            "最後の答えを入力してください。";
+          displayTotalCalculation();
+        } else {
+          displayNextStep();
+        }
+      } else {
+        document.getElementById("feedback").innerText =
+          "間違っています。もう一度お試しください。";
+      }
+    }
+
+    function displayTotalCalculation() {
+      document.getElementById(
+        "total-calculation"
+      ).innerHTML = `最終式: ${stepResults.join(" + ")} = `;
+    }
+
+    function checkFinalAnswer() {
+      const hexNumber = selectedHexNumbers[currentProblemIndex];
+      const correctFinalAnswer = parseInt(hexNumber, 16);
+      const userFinalAnswer = parseInt(
+        document.getElementById("user-final-answer").value
+      );
+
+      if (userFinalAnswer === correctFinalAnswer) {
+        correctAnswers++;
+        currentProblemIndex++;
+        document.getElementById("feedback").innerText =
+          "正解です！次の問題に進みます。";
+        setTimeout(startConversion, 1000); // 新しい問題を表示
+      } else {
+        document.getElementById("feedback").innerText =
+          "間違っています。もう一度お試しください。";
+      }
+    }
+
+    window.onload = function () {
+      document.getElementById("step-answer-container").style.display = "none";
+      document.getElementById("final-container").style.display = "none";
+    };
+  </script>
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <h1>例題⓷　16進数から10進数への変換</h1>
+
+        <!-- 問題開始ボタン (問題が表示された上に表示されるように設定) -->
+        <div id="start-button-container">
+          <button onclick="startConversion()">問題開始</button>
+        </div>
+
+        <div id="hex-question"></div>
+
+        <!-- 途中式入力フォーム -->
+        <div id="step-answer-container" style="display: none">
+          <p id="step-instruction"></p>
+          <input
+            type="number"
+            id="user-step-answer"
+            placeholder="途中式の答えを入力"
+          />
+          <button onclick="checkStepAnswer()">途中式の答えを確認</button>
+        </div>
+
+        <ul id="step-results"></ul>
+        <div id="total-calculation"></div>
+
+        <!-- 最終解答入力フォーム -->
+        <div id="final-container" style="display: none">
+          <input
+            type="number"
+            id="user-final-answer"
+            placeholder="最終的な答えを入力"
+          />
+          <button onclick="checkFinalAnswer()">最終解答を確認</button>
+        </div>
+
+        <div id="feedback"></div>
+      </div>
+    </div>
+  </body>
+</html>

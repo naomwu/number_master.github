@@ -1,0 +1,120 @@
+/* 全体のスタイル */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative; /* 重ねる要素のためにrelativeを設定 */
+
+  background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+}
+
+/* 背景画像のスタイル */
+.background-image {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  background-image: url("/2進数変換マスター/授業用サイト/images/background.png");
+  background-size: cover; /* 画面全体に合わせる */
+  z-index: 1; /* 最下層の要素 */
+  opacity: 0.8;
+  object-fit: scale-down; /* 画像が枠内に収まるように調整 */
+  max-width: 60%; /* 画像の最大幅を設定 (オプション) */
+  max-height: 100%; /* 画像の最大高さを設定 (オプション) */
+  transform: translate(-50%, -50%); /* 中央配置用のトランスフォーム */
+  margin: auto; /* 画面の中央に配置 */
+  opacity: 0.6;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  z-index: 2; /* 背景画像の上に配置 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: -56px;
+}
+/* タイトルスタイル */
+
+h1 {
+  position: relative;
+
+  font-size: 2rem; /* 適切なサイズ */
+  color: rgb(0, 0, 0); /* 視認性の高い色 */
+  z-index: 10; /* 背景より上に表示 */
+  background-color: rgb(252, 252, 252);
+  width: 900px;
+  border-radius: 10px;
+  top: -30px;
+}
+.fan2 {
+  width: 700px;
+  height: 500px;
+  margin-bottom: -100px;
+}
+#moji {
+  font-size: 20px;
+  font-weight: 5px;
+  color: rgb(0, 0, 0);
+  top: -1000px;
+}
+
+/* 共通のボタン全体のスタイル */
+.start-button,
+.back-button {
+  position: absolute;
+  top: 350px; /* 必要に応じて調整 */
+}
+
+/* 右向き三角形ボタン (既存のスタイル) */
+.start-button {
+  right: -30px; /* 画面右側に配置 */
+}
+
+.start-button .triangle {
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  border-left: 60px solid rgba(255, 255, 255, 0.5); /* 右向き三角形の色 */
+}
+
+.start-button .triangle-text {
+  position: absolute;
+  top: 40px; /* 三角形の上に配置 */
+  left: 47%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: black;
+  font-weight: bold;
+}
+
+/* 左向き三角形ボタン */
+.back-button {
+  left: -30px; /* 画面左側に配置 */
+}
+
+.back-button .triangle {
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  border-right: 60px solid rgba(255, 255, 255, 0.5); /* 左向き三角形の色 */
+}
+
+.back-button .triangle-text {
+  position: absolute;
+  top: 40px; /* 三角形の上に配置 */
+  left: 47%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: black;
+  font-weight: bold;
+}

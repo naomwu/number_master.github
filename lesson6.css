@@ -1,0 +1,73 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* htmlとbody両方に高さを設定 */
+}
+body {
+  display: flex;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+}
+.container {
+  display: flex;
+  gap: 20px;
+}
+.conversion-container,
+.drawing-container {
+  padding: 20px;
+  border-radius: 8px;
+}
+.hex-display {
+  font-size: 2em;
+  font-weight: bold;
+  color: #333;
+}
+input,
+button {
+  padding: 10px;
+  font-size: 16px;
+}
+.result {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+.hint-input {
+  margin-top: 10px;
+}
+.hint-binary {
+  color: green;
+  font-size: 1em;
+}
+#drawingCanvas {
+  border: 2px solid #000;
+  touch-action: none;
+}
+.controls {
+  margin-top: 10px;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+  background-attachment: fixed; /* 背景を固定して分割を防ぐ */
+  background-size: cover; /* 背景を画面全体に拡大縮小 */
+}
+.button_start {
+  position: relative;
+  font-size: 32px;
+  width: 60%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+  margin-left: 20%;
+}
+.button_start:hover {
+  transform: scale(0.95);
+}

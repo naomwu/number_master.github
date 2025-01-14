@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10進数から16進数への変換</title>
+    <link rel="stylesheet" href="lesson4.css" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <h1>10進数から16進数への変換</h1>
+        <button class="button_start" id="start-quiz">問題開始</button>
+
+        <div id="quiz-container" style="display: none">
+          <div id="results" class="result"></div>
+          <div class="button-container">
+            <button id="next-question" style="display: none">次の問題</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let currentQuestionIndex = 0;
+      const totalQuestions = 10;
+      let questions = [];
+
+      // クイズをリセットして新しい問題を生成
+      function resetQuiz() {
+        questions = Array.from(
+          { length: totalQuestions },
+          () => Math.floor(Math.random() * 900) + 100
+        );
+        currentQuestionIndex = 0;
+        document.getElementById("results").innerHTML = "";
+        document.getElementById("next-question").style.display = "none";
+      }
+
+      // 問題開始ボタンの設定
+      document.getElementById("start-quiz").onclick = function () {
+        resetQuiz();
+        document.getElementById("quiz-container").style.display = "block";
+        document.getElementById("start-quiz").style.display = "none"; // ボタンを非表示にする
+        showNextQuestion();
+      };
+
+      // 10進数を16進数に変換する文字取得関数
+      function toHexChar(value) {
+        return value < 10 ? String(value) : String.fromCharCode(value + 55);
+      }
+
+      // 次の問題を表示
+      function showNextQuestion() {
+        if (currentQuestionIndex >= totalQuestions) {
+          document.getElementById("results").innerHTML +=
+            "<p>全ての問題が終了しました！お疲れ様でした！</p>";
+          document.getElementById("next-question").style.display = "none";
+          return;
+        }
+
+        const decimal = questions[currentQuestionIndex];
+        let quotient = decimal;
+
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question-block");
+        questionDiv.innerHTML = `
+          問題 ${
+            currentQuestionIndex + 1
+          }: 10進数の ${decimal} を16進数に変換してください
+        `;
+        document.getElementById("results").appendChild(questionDiv);
+
+        let finalAnswer = "";
+        let intermediateAnswer = "";
+
+        function showStep() {
+          if (quotient === 0) {
+            showHexConversionInstruction(intermediateAnswer, finalAnswer);
+            return;
+          }
+
+          const remainder = quotient % 16;
+          const remainderHex = toHexChar(remainder);
+          const stepDiv = document.createElement("div");
+          stepDiv.classList.add("step");
+          stepDiv.innerHTML = `
+            <p>${quotient} ÷ 16 の商を入力してください</p>
+            <p>商: <input type="text" class="user-quotient" placeholder="商を入力">, 余り: <span class="remainder-display" style="visibility: hidden;">${remainder}</span></p>
+            <p class="feedback" style="color: red; display: none;">不正解です。正しい商を入力してください。</p>
+          `;
+          questionDiv.appendChild(stepDiv);
+
+          const quotientInput = stepDiv.querySelector(".user-quotient");
+          const remainderDisplay = stepDiv.querySelector(".remainder-display");
+          const feedback = stepDiv.querySelector(".feedback");
+
+          quotientInput.addEventListener("input", checkAnswer);
+
+          function checkAnswer() {
+            const userQuotient = quotientInput.value.trim();
+
+            if (userQuotient === String(Math.floor(quotient / 16))) {
+              quotientInput.disabled = true;
+              remainderDisplay.style.visibility = "visible";
+              feedback.style.display = "none";
+
+              intermediateAnswer = remainder + intermediateAnswer;
+              finalAnswer = remainderHex + finalAnswer;
+              quotient = Math.floor(quotient / 16);
+
+              stepDiv.innerHTML = `
+                <p>${
+                  quotient * 16 + remainder
+                } ÷ 16 の商は ${userQuotient}、余りは ${remainder}</p>
+              `;
+              showStep();
+            } else if (userQuotient) {
+              feedback.style.display = "block";
+            }
+          }
+        }
+
+        function showHexConversionInstruction(intermediateAnswer, finalAnswer) {
+          questionDiv.innerHTML += `
+            <p>ここまでの答えを英字を使わずに入力してください: <input type="text" id="intermediate-answer-input" placeholder="ここまでの答えを入力"></p>
+          `;
+
+          const intermediateAnswerInput = document.getElementById(
+            "intermediate-answer-input"
+          );
+
+          intermediateAnswerInput.addEventListener("input", function () {
+            if (
+              intermediateAnswerInput.value.trim().toUpperCase() ===
+              intermediateAnswer
+            ) {
+              intermediateAnswerInput.disabled = true;
+              questionDiv.innerHTML += `<p>正解です！次に進みましょう。</p>`;
+
+              questionDiv.innerHTML += `
+                <p>最終答えを入力してください: <input type="text" id="final-answer-input" placeholder="16進数の答えを入力"></p>
+              `;
+
+              const finalAnswerInput =
+                document.getElementById("final-answer-input");
+              finalAnswerInput.addEventListener("input", function () {
+                if (
+                  finalAnswerInput.value.trim().toUpperCase() === finalAnswer
+                ) {
+                  finalAnswerInput.disabled = true;
+                  showFinalAnswer(finalAnswer);
+                } else if (finalAnswerInput.value.trim()) {
+                  questionDiv.innerHTML += `<p style="color: red;">不正解です。もう一度試してください。</p>`;
+                }
+              });
+            } else if (intermediateAnswerInput.value.trim()) {
+              questionDiv.innerHTML += `<p style="color: red;">不正解です。もう一度試してください。</p>`;
+            }
+          });
+        }
+
+        function showFinalAnswer(answer) {
+          questionDiv.innerHTML += `
+            <p>正解！16進数表記は<strong>${answer}</strong>です！</p>
+          `;
+          document.getElementById("next-question").style.display = "inline";
+          currentQuestionIndex++;
+        }
+
+        showStep();
+      }
+
+      document.getElementById("next-question").onclick = function () {
+        document.getElementById("next-question").style.display = "none";
+        showNextQuestion();
+      };
+    </script>
+    <!-- 右下に挿入する画像 -->
+    <img src="images/teacher.png" alt="右下の画像" class="bottom-right-image" />
+    <img src="images/fukidashi.png" alt="右下の画像" class="fukidashi" />
+  </body>
+</html>

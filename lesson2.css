@@ -1,0 +1,122 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-size: 20px; /* htmlとbody両方に高さを設定 */
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+  background-attachment: fixed; /* 背景を固定して分割を防ぐ */
+  background-size: cover; /* 背景を画面全体に拡大縮小 */
+}
+h1 {
+  font-size: 40px;
+}
+.button_start {
+  position: relative;
+  font-size: 32px;
+  width: 30%;
+  padding: 0 50px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+}
+.button_start:hover {
+  transform: scale(0.95);
+}
+.send {
+  position: relative;
+  font-size: 20px;
+  width: 10%;
+  padding: 0px 5px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  /* ボタンの背景画像 */
+  background-color: aliceblue;
+}
+
+#userQuotient {
+  font-size: 20px;
+  height: 10%;
+  width: 15%;
+}
+
+#userAnswer {
+  font-size: 20px;
+  height: 10%;
+  width: 15%;
+}
+
+.teacher {
+  position: relative;
+  background-size: 100%;
+  /* ボックス配置指定 */
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+  /* ボックスサイズ指定 */
+  width: 100px;
+  height: 100px;
+}
+.bottom-right-image {
+  position: absolute;
+  left: 400px;
+  bottom: -200px;
+
+  animation: moveImage 3s infinite alternate; /* アニメーション適用 */
+}
+.teacher-img {
+  width: 150px;
+  height: auto;
+}
+.fukidashioya {
+  position: relative;
+  background-size: 100%;
+  /* ボックス配置指定 */
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+  /* ボックスサイズ指定 */
+  width: 100px;
+  height: 100px;
+}
+.fukidashiko {
+  position: absolute;
+  left: 100px;
+  top: -100px;
+
+  animation: moveImage 3s infinite alternate; /* アニメーション適用 */
+}
+
+.fukidashi-img {
+  width: 300px;
+  height: auto;
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+/* 右下に画像を固定配置するスタイル */
+
+/* アニメーション定義 */
+@keyframes moveImage {
+  0% {
+    transform: translateY(0); /* 初期位置 */
+  }
+  50% {
+    transform: translateY(-20px); /* 上に20px移動 */
+  }
+  100% {
+    transform: translateY(0); /* 元の位置に戻る */
+  }
+}
